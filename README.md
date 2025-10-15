@@ -3,7 +3,7 @@
 
 ## Project Structure
 - `main.c` - Main game controller
-- `support/` - Supporting Game components
 - `requirements.txt` - Development requirements
+- `support/` - Supporting Game components
 - `data/` - Word database
 - `others/` - Project documentation
