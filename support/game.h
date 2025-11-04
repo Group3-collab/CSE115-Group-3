@@ -1,2 +1,3 @@
 void loadRandomWord(char secretWord[]);
-void 
+void playHangman(char secretWord[], int *playerScore);
+void showHangman(int triesLeft);
