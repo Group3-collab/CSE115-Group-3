@@ -6,5 +6,5 @@
 
 void main()
 {
-  char secretWord[50]
+
 }
