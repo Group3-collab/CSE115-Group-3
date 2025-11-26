@@ -69,5 +69,4 @@ char word[20] = "PROGRAMMING";
     }
     printf("Progress: %d/%d letters revealed\n", revealed, length);
 
-    return 0;
 }
