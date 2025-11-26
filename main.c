@@ -6,46 +6,68 @@
 
 void main()
 {
-char word[20]="PROGRAMMING";
-    char guess[26]="AEI";
-    char show[20];
-    int i,j,lives=4,len;
+char word[20] = "PROGRAMMING";
+    char guessed[26] = "AEI";
+    char display[20];
+    int lives = 4, length;
     
-    len=strlen(word);
-    
-    for(i=0;i<len;i++){
-        show[i]='_';
-    }
-    show[len]='\0';
+    length = strlen(word);
 
-    for(i=0;i<len;i++){
-        for(j=0;j<strlen(guess);j++){
-            if(word[i]==guess[j]){
-                show[i]=word[i];
+    
+        display[i] = '_';
+    }
+    display[length] = '\0';
+
+    for(int pos = 0; pos < length; pos++) {
+        for(int g = 0; g < strlen(guessed); g++) {
+            if(word[pos] == guessed[g]) {
+                display[pos] = word[pos];
+                break; 
             }
         }
     }
     
     printf("\n");
-    printf("  +---+\n");
-    printf("  |   |\n");
-    printf("  O   |\n");
-    printf(" /|\\  |\n");
-    if(lives>0)
-        printf(" /     |\n");
-    else
-        printf(" / \\  |\n");
-    printf("      |\n");
-    printf("========\n");
+    printf("   ____\n");
+    printf("  |    |\n");
+    printf("  O    |\n");
     
-    printf("\nHANGMAN\n");
-    printf("Word: ");
-    for(i=0;i<len;i++){
-        printf("%c ",show[i]);
+    if(lives >= 3) {
+        printf("       |\n");
+        printf("       |\n");
+    } else if(lives >= 2) {
+        printf("  |    |\n");
+        printf("       |\n");
+    } else if(lives >= 1) {
+        printf(" /|    |\n");
+        printf("       |\n");
+    } else {
+        printf(" /|\\   |\n");
+        printf(" / \\   |\n");
     }
-    printf("\nGuessed: ");
-    for(i=0;i<strlen(guess);i++){
-        printf("%c ",guess[i]);
+    
+    printf("       |\n");
+    printf("  ========\n");
+    
+    printf("\n*** HANGMAN GAME ***\n");
+    printf("Hidden Word: ");
+    for(int i = 0; i < length; i++) {
+        printf("%c ", display[i]);
     }
-    printf("\nLives: %d\n",lives);
+    
+    printf("\nLetters Used: ");
+    for(int i = 0; i < strlen(guessed); i++) {
+        printf("%c", guessed[i]);
+        if(i < strlen(guessed) - 1) printf(", ");
+    }
+    
+    printf("\nRemaining Lives: %d\n", lives);
+    
+    int revealed = 0;
+    for(int i = 0; i < length; i++) {
+        if(display[i] != '_') revealed++;
+    }
+    printf("Progress: %d/%d letters revealed\n", revealed, length);
+
+    return 0;
 }
