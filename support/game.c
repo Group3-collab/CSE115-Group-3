@@ -65,12 +65,29 @@ int checkWin(const char *gameProgress)
 // Get a single letter guess from user
 char playerGuess()
 {
-    // TODO:
-    // - read a line from input
-    // - take first non-newline character
-    // - convert to lowercase
-    // - ignore non-alphabetic inputs
-    return '\0';  // placeholder
+    char buffer[50];
+    char playerGuess;
+
+    while(1){
+        printf("Enter a letter: ");
+
+        if (fgets(buffer, sizeof(buffer),stdin)==NULL)
+            continue;
+
+        int i=0;
+        while (buffer[i]=='\n')
+            i++;
+
+        playerGuess = buffer[i];
+
+        if(!isalpha(playerGuess)){
+            printf("Please enter a valid character (A-Z)\n");
+            continue;
+        }
+
+        playerGuess = tolower(playerGuess);
+        return playerGuess;
+    }
 }
 
 // Process the guess: update guessed letters & return correct/incorrect
@@ -106,3 +123,4 @@ void playHangman(const char *secretWord, int* playerScore)
     //       check is_word_guessed()
     // - print win/lose result
 }
+
