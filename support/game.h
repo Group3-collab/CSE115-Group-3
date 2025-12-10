@@ -1,29 +1,31 @@
-#include <stdio.h>
-#include <string.h>
+#ifndef GAME_H
+#define GAME_H
 
-void loadWord(char secretWord[], char guesses[], int guess_count);
-void playHangman(char secretWord[], int *playerScore);
+//Chooses random word from list
+const char* chooseWord(const char *wordList[], int wordCount);
+
+//Checks if a letter has already been guessed
+int checkifGuessed(char c, char guesses[], int guessCount);
+
+//Updates the string with how many letters have been guessed
+void updateProgress(const char *secretWord, char guesses[], int guessCount, char gameProgress[]);
+
+//Displays the progress of the game
+void displayProgress(const char *gameProgress);
+
+//Checks if game has been won
+int checkWin(const char *gameProgress);
+
+//Gets player input
+char playerGuess();
+
+//Processes player input: adds guessed char to guesses array and returns if correct/incorrect
+int processGuess(char playerGuess, const char *secretWord, char guesses[], int *guessCount);
+
+//Draws the hangman
 void showHangman(int triesLeft);
 
-int check(char c, char guesses[], int guess_count)
-{
-  for (int i =0; i<guess_count; i++){
-      if (guesses[i]==c)
-        return 1;
-    }
-  return 0;
-}
+//Main function to play game
+void playHangman(const char *secretWord, int *playerScore);
 
-void loadWord(char secretWord[], char guesses[], int guess_count)
-{
-  int size = strlen(secretWord);
-
-  for (int i=0; i<size; i++){
-    if (check(secretWord[i],guesses,guess_count)
-      printf("%c ",secretWord[i]);    //shows correctly guessed letters
-    else
-      printf("_ ");                   //blank spaces for unguessed letters
-  }
-  printf("\n");
-}
-
+#endif
