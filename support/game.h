@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAME_H_INCLUDED
+#define GAME_H_INCLUDED
 
 //Chooses random word from list
 const char* chooseWord(const char *wordList[], int wordCount);
@@ -28,4 +28,4 @@ void showHangman(int triesLeft);
 //Main function to play game
 void playHangman(const char *secretWord, int *playerScore);
 
-#endif
+#endif //GAME_H_INCLUDED
