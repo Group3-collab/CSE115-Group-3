@@ -14,7 +14,6 @@ const char* chooseWord(const char *word_list[], int wordCount)
 // Check if a letter has already been guessed
 int checkifGuessed(char c, char guesses[], int guessCount)
 {
-    // TODO: loop through guesses[] and return 1 if found
     for (int i=0; i<guessCount; i++)
     {
         if (guesses[i]==c)
@@ -123,4 +122,5 @@ void playHangman(const char *secretWord, int* playerScore)
     //       check is_word_guessed()
     // - print win/lose result
 }
+
 
