@@ -29,6 +29,6 @@ int processGuess(char playerGuess, const char *secretWord, char guesses[], int *
 void showHangman(int triesLeft);
 
 //Main function to play game
-void playHangman(const char *secretWord, int *playerScore);
+void playHangman(const char *secretWord, char *playerName, int *playerScore);
 
 #endif //GAME_H_INCLUDED
