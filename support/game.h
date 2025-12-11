@@ -8,7 +8,7 @@ int chooseWord(const char *fileName, char *secretWord, int maxSize);
 int checkifGuessed(char c, char guesses[], int guessCount);
 
 //Reveals part of the secret word
-void initialReveal(const char *secretWord, char guesses[], int *guessCount, int revealCount);
+void initialReveal(const char *secretWord, char guesses[], int *guessCount);
 
 //Updates the string with how many letters have been guessed
 void updateProgress(const char *secretWord, char guesses[], int *guessCount, char gameProgress[]);
@@ -20,7 +20,7 @@ void displayProgress(const char *gameProgress);
 int checkWin(const char *gameProgress);
 
 //Gets player input
-char playerGuess();
+char getPlayerGuess();
 
 //Processes player input: adds guessed char to guesses array and returns if correct/incorrect
 int processGuess(char playerGuess, const char *secretWord, char guesses[], int *guessCount);
