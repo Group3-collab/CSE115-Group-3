@@ -7,6 +7,12 @@ essence
 software
 operator
 notion
-paradox
+language
 creative
 computer
+function
+pointer
+compiler
+
+
+
