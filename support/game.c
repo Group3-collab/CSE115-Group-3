@@ -54,12 +54,11 @@ int checkifGuessed(char c, char guesses[], int guessCount)
 }
 
 //Reveals part of the secret word initially
-void initialReveal(const char *secretWord, char guesses[], int *guessCount, int revealCount) {
+void initialReveal(const char *secretWord, char guesses[], int *guessCount) {
     int wordSize = strlen(secretWord);
-
-    //Avoids revealing more words than present
-    if (revealCount > wordSize)
-        revealCount = wordSize/5;
+    
+    //Determines the number of letters to reveal
+    int revealCount = wordSize/5;
     while (*guessCount < revealCount) {
         int index = rand() % wordSize;
         char reveal = secretWord[index];
@@ -82,11 +81,11 @@ void initialReveal(const char *secretWord, char guesses[], int *guessCount, int 
 }
 
 // Update the progress array (e.g. "_a__ma_")
-void updateProgress(const char *secretWord, char guesses[], int *guessCount, char gameProgress[])
+void updateProgress(const char *secretWord, char guesses[], int *guessCount, char *gameProgress)
 {
     int wordSize = strlen(secretWord);
 
-    for (int i=0; i<guessCount; i++)
+    for (int i=0; i < guessCount; i++)
     {
         if (checkifGuessed(secretWord[i], guesses, guessCount))
             gameProgress[i]=secretWord[i];
@@ -99,10 +98,10 @@ void updateProgress(const char *secretWord, char guesses[], int *guessCount, cha
 // Display the progress string
 void displayProgress(const char *gameProgress)
 {
-    int size = strlen(gameProgress);
+    int wordSize = strlen(gameProgress);
 
-    printf("Word:\t");
-    for (int i=0; i<size; i++)
+    printf("\nWord:\t");
+    for (int i=0; i < wordSize; i++)
         printf("%c ",gameProgress[i]);
     printf("\n");
 }
@@ -110,9 +109,9 @@ void displayProgress(const char *gameProgress)
 // Check if the word is fully guessed
 int checkWin(const char *gameProgress)
 {
-    int size = strlen(gameProgress);
+    int wordSize = strlen(gameProgress);
 
-    for (int i=0; i<size; i++)
+    for (int i=0; i < wordSize; i++)
     {
         if (gameProgress[i]=='_')
             return 0;
@@ -120,8 +119,8 @@ int checkWin(const char *gameProgress)
     return 1;
 }
 
-// Get a single letter guess from user
-char playerGuess()
+// Get a single letter guess from user, ignoring invalid characters
+char getPlayerGuess()
 {
     char buffer[50];
     char playerGuess;
@@ -151,10 +150,6 @@ char playerGuess()
 // Process the guess: update guessed letters & return correct/incorrect
 int processGuess(char playerGuess, const char *secretWord, char guesses[], int *guessCount)
 {
-    //Checks if player input has already been guessed
-    if (checkifGuessed(playerGuess, guesses, *guessCount))
-        return -1;        //Already guessed
-
     //Adds player input to guesses[]
     guesses[*guessCount] = guess;
     (*guessCount)++;
@@ -177,20 +172,62 @@ void showHangman(int triesLeft)
 // Main gameplay engine
 void playHangman(const char *secretWord, char *playerName, int *playerScore)
 {
-    // TODO:
-    // - set lives (e.g. triesLeft = 6)
-    // - create guessed_letters array
-    // - create progress array with correct length
-    // - game loop:
-    //       updateProgress()
-    //       displayProgress()
-    //       playerGuess()
-    //       processGuess()
-    //       update tiresLeft if incorrect
-    //       checkWin()
-    // - print win/lose result
-    // Update playerScore
+    char lettersGuessed[50];
+    int guessCount = 0;
+    int triesLeft = 6;
+    char gameProgress[100];
+
+    //Game initialization
+    initialReveal(secretWord, lettersGuessed, &guessCount);
+    updateProgress(secretWord, lettersGuessed, &guessCount, gameProgress);
+
+    printf("Welcome, %s! Let's see if you can guess this word. Good luck!\n\n", playerName);
+
+    while (triesLeft > 0) {
+        showHangman(triesLeft);
+        displayProgress(gameProgress);
+        printf("Guesses left: %d\n", triesLeft);
+
+        //Gets player guess
+        char guess = getPlayerGuess();
+
+        if (checkifGuessed(guess, lettersGuessed, guessCount)) {
+            printf("You've already guessed '%c'. Try another letter.\n", guess);
+            continue;
+        }
+
+        //Records guess to array of guesses
+        lettersGuessed[guessCount++] = guess;
+
+        //Processes guess
+        int correct = processGuess(guess, secretWord, lettersGuessed, &guessCount);
+        if (!correct) {
+            triesLeft--;
+            printf("Incorrect guess...\n");
+        }
+        else
+            printf("Good guess!\n");
+
+        //Updates progress
+        updateProgress(secretWord, lettersGuessed, &guessCount, gameProgress);
+
+        //Checks if game was won
+        if (checkWin(gameProgress)) {
+            printf("\nYOU WIN, %s!\n", playerName);
+            printf("The word was: %s\n", secretWord);
+
+            //Score update
+            *playerScore += 10;
+
+            return;
+        }
+    }
+
+    //Game lost
+    showHangman(0);
+    printf("\nYou lost, %s. The word was: %s\n", playerName, secretWord);
 }
+
 
 
 
