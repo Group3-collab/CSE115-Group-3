@@ -56,7 +56,30 @@ int checkifGuessed(char c, char guesses[], int guessCount)
 //Reveals part of the secret word initially
 void initialReveal(const char *secretWord, char guesses[], int *guessCount, int revealCount) {
     int wordSize = strlen(secretWord);
-    
+
+    //Avoids revealing more words than present
+    if (revealCount > wordSize)
+        revealCount = wordSize/5;
+    while (*guessCount < revealCount) {
+        int index = rand() % wordSize;
+        char reveal = secretWord[index];
+        
+        //Checks if already guessed
+        int guessed = 0;
+        for (int i=0; i < *guessCount; i++) {
+            if (guesses[i] == reveal) {
+                guessed = 1;
+                break;
+            }
+        }
+        
+        //Adds letter if new
+        if (!guessed) {
+            guesses[*guessCount] = reveal;
+            (*guessCount)++;
+        }
+    }
+}
 
 // Update the progress array (e.g. "_a__ma_")
 void updateProgress(const char *secretWord, char guesses[], int *guessCount, char gameProgress[])
@@ -159,6 +182,7 @@ void playHangman(const char *secretWord, char *playerName, int *playerScore)
     // - print win/lose result
     // Update playerScore
 }
+
 
 
 
