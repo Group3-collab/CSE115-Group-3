@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include "game.h"
 
-// Choose a random word from the list
+#define MAX_TRIES 7
+
+// Chooses a random word from the list
 int chooseWord(const char *fileName, char *secretWord, int maxSize)
 {
     FILE *file = fopen(filename,"r");
@@ -42,7 +44,7 @@ int chooseWord(const char *fileName, char *secretWord, int maxSize)
     return 1;  // success
 }
 
-// Check if a letter has already been guessed
+// Checks if a letter has already been guessed
 int checkifGuessed(char c, char guesses[], int guessCount)
 {
     for (int i=0; i < guessCount; i++)
@@ -80,7 +82,7 @@ void initialReveal(const char *secretWord, char guesses[], int *guessCount) {
     }
 }
 
-// Update the progress array (e.g. "_a__ma_")
+// Updates the progress array (e.g. "_a__ma_")
 void updateProgress(const char *secretWord, char guesses[], int *guessCount, char *gameProgress)
 {
     int wordSize = strlen(secretWord);
@@ -95,7 +97,7 @@ void updateProgress(const char *secretWord, char guesses[], int *guessCount, cha
     gameProgress[wordSize]='\0';
 }
 
-// Display the progress string
+// Displays the progress string
 void displayProgress(const char *gameProgress)
 {
     int wordSize = strlen(gameProgress);
@@ -106,7 +108,7 @@ void displayProgress(const char *gameProgress)
     printf("\n");
 }
 
-// Check if the word is fully guessed
+// Checks if the word is fully guessed
 int checkWin(const char *gameProgress)
 {
     int wordSize = strlen(gameProgress);
@@ -119,7 +121,7 @@ int checkWin(const char *gameProgress)
     return 1;
 }
 
-// Get a single letter guess from user, ignoring invalid characters
+// Gets a single letter guess from user, ignoring invalid characters
 char getPlayerGuess()
 {
     char buffer[50];
@@ -147,7 +149,7 @@ char getPlayerGuess()
     }
 }
 
-// Process the guess: update guessed letters & return correct/incorrect
+// Processes the guess: update guessed letters & return correct/incorrect
 int processGuess(char playerGuess, const char *secretWord, char guesses[], int *guessCount)
 {
     //Adds player input to guesses[]
@@ -163,18 +165,90 @@ int processGuess(char playerGuess, const char *secretWord, char guesses[], int *
     return 0;            //Incorrect guess
 }
 
-// Optional: draw the hangman based on remaining lives
+// Draws the hangman based on remaining lives
 void showHangman(int triesLeft)
 {
-    // TODO: ASCII art for lives 6→0
+    static const char *HANGMAN_STAGES[] = {
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |      /|\\\n"
+        " |      / \\\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |      /|\\\n"
+        " |      /\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |      /|\\\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |      /|\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |       |\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |       |\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        "  _______\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        "_|_\n"
+    };
+    
+    int stage = MAX_TRIES - tries_left;
+
+    if (stage < 0) stage = 0;
+    if (stage > MAX_TRIES) stage = MAX_TRIES;
+
+    printf("%s\n", HANGMAN_STAGES[stage]);
 }
+
 
 // Main gameplay engine
 void playHangman(const char *secretWord, char *playerName, int *playerScore)
 {
     char lettersGuessed[50];
     int guessCount = 0;
-    int triesLeft = 6;
+    int triesLeft = MAX_TRIES;
     char gameProgress[100];
 
     //Game initialization
@@ -227,6 +301,7 @@ void playHangman(const char *secretWord, char *playerName, int *playerScore)
     showHangman(0);
     printf("\nYou lost, %s. The word was: %s\n", playerName, secretWord);
 }
+
 
 
 
