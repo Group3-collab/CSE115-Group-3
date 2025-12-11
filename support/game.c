@@ -45,7 +45,7 @@ int chooseWord(const char *fileName, char *secretWord, int maxSize)
 // Check if a letter has already been guessed
 int checkifGuessed(char c, char guesses[], int guessCount)
 {
-    for (int i=0; i<guessCount; i++)
+    for (int i=0; i < guessCount; i++)
     {
         if (guesses[i]==c)
             return 1;   //found
@@ -151,12 +151,21 @@ char playerGuess()
 // Process the guess: update guessed letters & return correct/incorrect
 int processGuess(char playerGuess, const char *secretWord, char guesses[], int *guessCount)
 {
-    // TODO:
-    // - check if guess already in guesses[] (optional)
-    // - add guess to guesses[]
-    // - increment *guess_count
-    // - return 1 if guess appears in word, else 0
-    return 0;
+    //Checks if player input has already been guessed
+    if (checkifGuessed(playerGuess, guesses, *guessCount))
+        return -1;        //Already guessed
+
+    //Adds player input to guesses[]
+    guesses[*guessCount] = guess;
+    (*guessCount)++;
+    
+    //Checks if player input appears in secret word
+    for (int i=0; word[i] != '\0'; i++) {
+        if (secretWord[i] == playerGuess)
+            return 1;    //Correct guess
+    }
+    
+    return 0;            //Incorrect guess
 }
 
 // Optional: draw the hangman based on remaining lives
@@ -182,6 +191,7 @@ void playHangman(const char *secretWord, char *playerName, int *playerScore)
     // - print win/lose result
     // Update playerScore
 }
+
 
 
 
