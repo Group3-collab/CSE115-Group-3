@@ -1,8 +1,8 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
 
-//Chooses random word from list
-const char* chooseWord(const char *wordList[], int wordCount);
+//Chooses random word from list, returns success or failure
+int chooseWord(const char *fileName, char *secretWord, int maxSize);
 
 //Checks if a letter has already been guessed
 int checkifGuessed(char c, char guesses[], int guessCount);
