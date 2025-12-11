@@ -7,8 +7,11 @@ int chooseWord(const char *fileName, char *secretWord, int maxSize);
 //Checks if a letter has already been guessed
 int checkifGuessed(char c, char guesses[], int guessCount);
 
+//Reveals part of the secret word
+void initialReveal(const char *secretWord, char guesses[], int *guessCount, int revealCount);
+
 //Updates the string with how many letters have been guessed
-void updateProgress(const char *secretWord, char guesses[], int guessCount, char gameProgress[]);
+void updateProgress(const char *secretWord, char guesses[], int *guessCount, char gameProgress[]);
 
 //Displays the progress of the game
 void displayProgress(const char *gameProgress);
