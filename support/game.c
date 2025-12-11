@@ -5,10 +5,41 @@
 #include "game.h"
 
 // Choose a random word from the list
-const char* chooseWord(const char *word_list[], int wordCount)
+int chooseWord(const char *fileName, char *secretWord, int maxSize)
 {
-    // TODO: use rand() % word_count to pick a random index
-    return NULL;  // placeholder
+    FILE *file = fopen(filename,"r");
+    if (!file) {
+        printf("Error: Could not open file\n");
+        return 0;    //failure
+    }
+
+    char words[200][50];    //Row = word count, column = word length
+    int count = 0;
+
+    //Reads words from file
+    while (fgets(words[count], sizeof(words[count]), file) != NULL) {
+        words[count][strcspn(words[count],"\n")] = '\0';    //Removes newline
+        count++;
+
+        if (count >= 200)
+            break;
+    }
+
+    fclose(file);
+
+    if (count == 0) {
+        printf("Error: No words found in file\n");
+        return 0;       //failure
+    }
+
+    //Random index
+    int index = rand() % count;
+
+    //Copies into output
+    strncpy(secretWord, words[index], maxSize-1);
+    secretWord[maxSize-1] = '\0';
+    
+    return 1;  // success
 }
 
 // Check if a letter has already been guessed
@@ -122,5 +153,6 @@ void playHangman(const char *secretWord, int* playerScore)
     //       check is_word_guessed()
     // - print win/lose result
 }
+
 
 
