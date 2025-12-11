@@ -53,8 +53,13 @@ int checkifGuessed(char c, char guesses[], int guessCount)
     return 0;           // not found
 }
 
+//Reveals part of the secret word initially
+void initialReveal(const char *secretWord, char guesses[], int *guessCount, int revealCount) {
+    int wordSize = strlen(secretWord);
+    
+
 // Update the progress array (e.g. "_a__ma_")
-void updateProgress(const char *secretWord, char guesses[], int guessCount, char gameProgress[])
+void updateProgress(const char *secretWord, char guesses[], int *guessCount, char gameProgress[])
 {
     int wordSize = strlen(secretWord);
 
@@ -138,7 +143,7 @@ void showHangman(int triesLeft)
 }
 
 // Main gameplay engine
-void playHangman(const char *secretWord, char *playerName, int* playerScore)
+void playHangman(const char *secretWord, char *playerName, int *playerScore)
 {
     // TODO:
     // - set lives (e.g. triesLeft = 6)
@@ -154,6 +159,7 @@ void playHangman(const char *secretWord, char *playerName, int* playerScore)
     // - print win/lose result
     // Update playerScore
 }
+
 
 
 
