@@ -138,21 +138,23 @@ void showHangman(int triesLeft)
 }
 
 // Main gameplay engine
-void playHangman(const char *secretWord, int* playerScore)
+void playHangman(const char *secretWord, char *playerName, int* playerScore)
 {
     // TODO:
-    // - set lives (e.g. lives = 6)
+    // - set lives (e.g. triesLeft = 6)
     // - create guessed_letters array
     // - create progress array with correct length
     // - game loop:
-    //       update_progress()
-    //       display_progress()
-    //       get_player_guess()
-    //       process_guess()
-    //       update lives if incorrect
-    //       check is_word_guessed()
+    //       updateProgress()
+    //       displayProgress()
+    //       playerGuess()
+    //       processGuess()
+    //       update tiresLeft if incorrect
+    //       checkWin()
     // - print win/lose result
+    // Update playerScore
 }
+
 
 
 
