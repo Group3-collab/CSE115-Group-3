@@ -4,120 +4,176 @@
 #include <ctype.h>
 #include "player.h"
 
+// gets the player's name from input
 void getPlayerName(char *name, int maxLength)
 {
+    // read input from user
     fgets(name, maxLength, stdin);
     
+    // loop through to find newline character
     int i = 0;
-    while (name[i] != '\0') {
-        if (name[i] == '\n') {
-            name[i] = '\0';
+    while (name[i] != '\0')
+    {
+        if (name[i] == '\n')
+        {
+            name[i] = '\0';  // replace newline with null terminator
             break;
         }
         i++;
     }
     
-    if (name[0] == '\0') {
+    // if the user didnt type anything, use default
+    if (strlen(name) == 0)
+    {
         strcpy(name, "Player");
     }
 }
 
+// saves the players score to a file
 void savePlayerScore(const char *playerName, int score)
 {
+    // try to open the file in append mode
     FILE *file = fopen("data/scores.txt", "a");
-    if (file == NULL) {
-        printf("Warning: Could not save score.\n");
+    
+    // check if it worked
+    if (file == NULL)
+    {
+        printf("Could not save score.\n");  // error mesage
         return;
     }
     
+    // write the name and score seperated by colon
     fprintf(file, "%s:%d\n", playerName, score);
     fclose(file);
 }
 
+// displays the top scores from the file
 void displayHighScores()
 {
+    // open file for reading
     FILE *file = fopen("data/scores.txt", "r");
-    if (file == NULL) {
-        printf("No high scores yet.\n");
+    
+    // if file doesnt exist yet, no scores to show
+    if (file == NULL)
+    {
+        printf("No scores yet.\n");
         return;
     }
     
-    char names[100][50];
-    int scores[100];
-    int count = 0;
+    // temperary variables for reading each line
+    char name[50];
+    int score;
     
-    while (count < 100 && fscanf(file, "%49[^:]:%d\n", names[count], &scores[count]) == 2) {
-        count++;
+    // arrays to store all the scores we read
+    char allNames[100][50];
+    int allScores[100];
+    int total = 0;
+    
+    // keep reading until we reach end of file or hit limit
+    while (fscanf(file, "%[^:]:%d\n", name, &score) == 2)
+    {
+        strcpy(allNames[total], name);
+        allScores[total] = score;
+        total++;
+        
+        if (total >= 100)  // dont go over array size
+            break;
     }
+    
     fclose(file);
     
-    int i, j;
-    for (i = 0; i < count - 1; i++) {
-        for (j = 0; j < count - i - 1; j++) {
-            if (scores[j] < scores[j + 1]) {
-                int temp = scores[j];
-                scores[j] = scores[j + 1];
-                scores[j + 1] = temp;
+    // sort the scores from highest to lowest using bubble sort
+    // we learned this algoritm in class
+    for (int i = 0; i < total - 1; i++)
+    {
+        for (int j = 0; j < total - i - 1; j++)
+        {
+            // if current is less than next, swap them
+            if (allScores[j] < allScores[j + 1])
+            {
+                // swap the scores
+                int tempScore = allScores[j];
+                allScores[j] = allScores[j + 1];
+                allScores[j + 1] = tempScore;
                 
+                // also swap the correspnding names
                 char tempName[50];
-                strcpy(tempName, names[j]);
-                strcpy(names[j], names[j + 1]);
-                strcpy(names[j + 1], tempName);
+                strcpy(tempName, allNames[j]);
+                strcpy(allNames[j], allNames[j + 1]);
+                strcpy(allNames[j + 1], tempName);
             }
         }
     }
     
-    int limit = count;
-    if (limit > 10) {
-        limit = 10;
-    }
+    // figure out how many to display (maximum 10)
+    int show = total;
+    if (show > 10)
+        show = 10;
     
-    for (i = 0; i < limit; i++) {
-        printf("%d. %s - %d points\n", i + 1, names[i], scores[i]);
+    // print the top scores
+    for (int i = 0; i < show; i++)
+    {
+        printf("%d. %s - %d points\n", i + 1, allNames[i], allScores[i]);
     }
 }
 
+// loads words from the text file into memory
 int loadWordsFromFile(const char *filename, const char *wordList[], int *wordCount)
 {
+    // try opening the file
     FILE *file = fopen(filename, "r");
-    if (file == NULL) {
+    
+    // if file doesnt exist return error code
+    if (file == NULL)
+    {
         return -1;
     }
     
-    char buffer[100];
-    *wordCount = 0;
+    char line[100];  // buffer for each line
+    *wordCount = 0;  // start counting from zero
     
-    while (*wordCount < 50 && fgets(buffer, 100, file) != NULL) {
-        int len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
-            len--;
+    // read the file line by line
+    while (fgets(line, 100, file) != NULL)
+    {
+        // get the lenght of current line
+        int length = strlen(line);
+        
+        // remove newline charcter at end
+        if (line[length - 1] == '\n')
+        {
+            line[length - 1] = '\0';
+            length--;
         }
         
-        if (len > 0) {
-            char *word = (char*)malloc(len + 1);
-            if (word == NULL) {
-                continue;
-            }
+        // only process if line is not emtpy
+        if (length > 0)
+        {
+            // allocate memory for this word
+            char *newWord = (char *)malloc(length + 1);
             
-            int i;
-            for (i = 0; i <= len; i++) {
-                word[i] = tolower(buffer[i]);
+            // check if malloc suceeded
+            if (newWord != NULL)
+            {
+                // copy the word into allocated memroy
+                strcpy(newWord, line);
+                
+                // convert evrything to lowercase
+                for (int i = 0; i < length; i++)
+                {
+                    newWord[i] = tolower(newWord[i]);
+                }
+                
+                // add to our list
+                wordList[*wordCount] = newWord;
+                (*wordCount)++;
             }
-            
-            wordList[*wordCount] = word;
-            (*wordCount)++;
         }
+        
+        // stop if we reached maximum
+        if (*wordCount >= 50)
+            break;
     }
     
     fclose(file);
-    return 0;
-}
-
-void freeWordList(const char *wordList[], int wordCount)
-{
-    int i;
-    for (i = 0; i < wordCount; i++) {
-        free((void*)wordList[i]);
-    }
+    return 0;  // sucess
 }
