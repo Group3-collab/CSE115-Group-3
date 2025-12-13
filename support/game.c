@@ -9,9 +9,9 @@
 // Chooses a random word from the list
 const char* chooseWord(const char *wordList[], int wordCount)
 {
-    if (wordCount <= 0) 
+    if (wordCount <= 0)
         return NULL;
-    
+
     int randomIndex = rand() % wordCount;
     return wordList[randomIndex];
 }
@@ -102,14 +102,14 @@ int processGuess(char playerGuess, const char *secretWord, char guesses[], int *
     //Adds player input to guesses[]
     guesses[*guessCount] = playerGuess;
     (*guessCount)++;
-    
+
     //Checks if player input appears in secret word
     for (int i = 0; secretWord[i] != '\0'; i++)
     {
         if (secretWord[i] == playerGuess)
             return 1;    //Correct guess
     }
-    
+
     return 0;            //Incorrect guess
 }
 
@@ -117,30 +117,34 @@ int processGuess(char playerGuess, const char *secretWord, char guesses[], int *
 void showHangman(int triesLeft)
 {
     static const char *HANGMAN_STAGES[] = {
+        // Stage 0: Empty gallows (6 tries left)
         "  _______\n"
         " |       |\n"
-        " |       O\n"
-        " |      /|\\\n"
-        " |      / \\\n"
         " |\n"
-        "_|_\n",
-
-        "  _______\n"
-        " |       |\n"
-        " |       O\n"
-        " |      /|\\\n"
-        " |      /\n"
         " |\n"
-        "_|_\n",
-
-        "  _______\n"
-        " |       |\n"
-        " |       O\n"
-        " |      /|\\\n"
         " |\n"
         " |\n"
         "_|_\n",
 
+        // Stage 1: Head (5 tries left)
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        // Stage 2: Body (4 tries left)
+        "  _______\n"
+        " |       |\n"
+        " |       O\n"
+        " |       |\n"
+        " |\n"
+        " |\n"
+        "_|_\n",
+
+        // Stage 3: Left arm (3 tries left)
         "  _______\n"
         " |       |\n"
         " |       O\n"
@@ -149,35 +153,38 @@ void showHangman(int triesLeft)
         " |\n"
         "_|_\n",
 
+        // Stage 4: Both arms (2 tries left)
         "  _______\n"
         " |       |\n"
         " |       O\n"
-        " |       |\n"
+        " |      /|\\\n"
         " |\n"
         " |\n"
         "_|_\n",
 
+        // Stage 5: Left leg (1 try left)
         "  _______\n"
         " |       |\n"
         " |       O\n"
-        " |\n"
-        " |\n"
+        " |      /|\\\n"
+        " |      /\n"
         " |\n"
         "_|_\n",
 
+        // Stage 6: Both legs - GAME OVER (0 tries left)
         "  _______\n"
         " |       |\n"
-        " |\n"
-        " |\n"
-        " |\n"
+        " |       O\n"
+        " |      /|\\\n"
+        " |      / \\\n"
         " |\n"
         "_|_\n"
     };
-    
+
     int stage = MAX_TRIES - triesLeft;
 
     if (stage < 0) stage = 0;
-    if (stage >= MAX_TRIES) stage = MAX_TRIES - 1;
+    if (stage > 6) stage = 6;
 
     printf("%s\n", HANGMAN_STAGES[stage]);
 }
@@ -259,12 +266,6 @@ void freeWordList(const char *wordList[], int wordCount)
         }
     }
 }
-
-
-
-
-
-
 
 
 
