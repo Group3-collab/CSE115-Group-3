@@ -225,6 +225,8 @@ Developed by Group 3 for CSE115 Programming Fundamentals course.
 
 Special thanks to our course instructor for guidance throughout the project development.
 
+Disclaimer: AI has been used to assist with documentation (https://chatgpt.com/).
+
 ## License
 This project is created for educational purposes as part of a university course assignment.
 
@@ -233,3 +235,4 @@ This project is created for educational purposes as part of a university course 
 **Last Updated**: December 2025  
 **Version**: 1.0  
 **Course**: CSE115 - Programming Fundamentals
+
