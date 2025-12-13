@@ -54,23 +54,6 @@ CSE115-Group-3/
 - **Rafiha Saleha**
 - **Syed Sadat Hasan**
 
-## Compilation Instructions
-
-### On Linux/Mac:
-```bash
-gcc -o hangman main.c support/game.c support/player.c
-```
-
-### On Windows (using MinGW):
-```bash
-gcc -o hangman.exe main.c support/game.c support/player.c
-```
-
-### With all warnings enabled (recommended):
-```bash
-gcc -Wall -o hangman main.c support/game.c support/player.c
-```
-
 ## Running the Game
 
 ### On Linux/Mac:
