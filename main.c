@@ -3,28 +3,28 @@
 #include <string.h>
 #include "support/game.h"
 #include "support/player.h"
-#include <time.h> \\I'm addimg this for pseudo random 
+#include <time.h> // I'm adding this for pseudo random
 
 int main()
 {
     srand(time(NULL));
-    
+
     printf("+----------------------------------------+\n");
     printf("|     WELCOME TO THE HANGMAN GAME!       |\n");
     printf("+----------------------------------------+\n\n");
-    
+
     char playerName[50];
     int playerScore = 0;
     char choice;
-    
+
     printf("Enter your name: ");
     getPlayerName(playerName, 50);
-    
+
     printf("\nHello, %s! Let's play Hangman!\n\n", playerName);
-    
+
     const char *wordList[50];
     int wordCount = 0;
-    
+
     if (loadWordsFromFile("data/words.txt", wordList, &wordCount) == 0) {
         printf("Loaded %d words from dictionary.\n\n", wordCount);
     } else {
@@ -41,40 +41,40 @@ int main()
         wordList[9] = "network";
         wordCount = 10;
     }
-    
+
     do {
         printf("\n-------------------------------------\n");
         printf("         NEW ROUND START!!!\n");
         printf("----------------------------------------\n\n");
-        
+
         const char *secretWord = chooseWord(wordList, wordCount);
-        
+
         playHangman(secretWord, &playerScore);
-        
+
         printf("\n-------------------------------------\n");
         printf("Your current score: %d points\n", playerScore);
         printf("----------------------------------------\n");
-        
+
         printf("\nDo you want to play again? (y/n): ");
         scanf(" %c", &choice);
         while(getchar() != '\n');
-        
+
     } while (choice == 'y' || choice == 'Y');
-    
-    printf("\========================================+\n");
+
+    printf("+========================================+\n");
     printf("|             GAME OVER                  |\n");
     printf("+========================================+\n\n");
-    
+
     savePlayerScore(playerName, playerScore);
-    
+
     printf("Final Score for %s: %d points\n\n", playerName, playerScore);
-    
+
     printf("============= HIGH SCORES =============\n");
     displayHighScores();
-    
+
     printf("\nThanks for playing our game, %s!\n", playerName);
-    
+
     freeWordList(wordList, wordCount);
-    
+
     return 0;
 }
