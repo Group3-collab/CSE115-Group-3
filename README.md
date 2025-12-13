@@ -15,5 +15,5 @@ Players will guess letters to reveal a hidden random word until they run out of 
 ## Group Members (names are ordered alphabetically)
 - Ashfaqul Alam
 - Intisar Binthay Fauzul
-- Syed Sadat Hasan
 - Rafiha Saleha
+- Syed Sadat Hasan
