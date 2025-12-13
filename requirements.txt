@@ -1,1 +1,135 @@
+HANGMAN GAME - PROJECT REQUIREMENTS
+===================================
 
+SYSTEM REQUIREMENTS
+-------------------
+1. C Compiler (GCC 7.0 or higher recommended)
+2. Standard C Libraries:
+   - stdio.h (Input/Output)
+   - stdlib.h (Memory allocation, random numbers)
+   - string.h (String manipulation)
+   - ctype.h (Character type checking)
+   - time.h (Random seed generation)
+
+
+DEPENDENCIES
+------------
+
+Standard C Libraries (included in compiler):
+- stdio.h
+- stdlib.h
+- string.h
+- ctype.h
+- time.h
+
+No external libraries required.
+
+FUNCTIONAL REQUIREMENTS
+------------------------
+
+1. GAME MECHANICS
+   - Select random word from dictionary file
+   - Display word progress with underscores for unguessed letters
+   - Accept single letter guesses from player
+   - Validate input (alphabetic characters only)
+   - Track correct and incorrect guesses
+   - Detect duplicate guesses
+   - Display ASCII hangman visualization
+   - Implement 6-life system
+   - Determine win/loss conditions
+
+2. PLAYER FEATURES
+   - Accept player name input
+   - Track score across multiple rounds
+   - Calculate points based on remaining lives (lives × 10)
+   - Save scores to persistent storage
+   - Display high scores leaderboard
+   - Show top 10 players sorted by score
+
+3. FILE OPERATIONS
+   - Load words from data/words.txt
+   - Create/append to data/scores.txt
+   - Handle file not found errors gracefully
+   - Parse score file format (name:score)
+
+4. USER INTERFACE
+   - Clear, formatted console output
+   - Welcome screen with game title
+   - Round separator displays
+   - Current progress display
+   - Guessed letters display
+   - Lives remaining indicator
+   - Win/loss messages
+   - Score summary
+   - Play again prompt
+
+5. DATA MANAGEMENT
+   - Dynamic memory allocation for word list
+   - Proper memory deallocation
+   - Score sorting algorithm
+   - Input buffer management
+
+TECHNICAL REQUIREMENTS
+-----------------------
+
+1. CODE ORGANIZATION
+   - main.c: Entry point and game controller
+   - support/game.c: Core game logic
+   - support/game.h: Game function declarations
+   - support/player.c: Player management
+   - support/player.h: Player function declarations
+   - data/words.txt: Word dictionary (200+ words)
+   - data/scores.txt: High scores (auto-generated)
+
+2. FUNCTIONS IMPLEMENTED
+
+   Game Functions (game.c):
+   - const char* chooseWord(const char *wordList[], int wordCount)
+   - int checkifGuessed(char c, char guesses[], int guessCount)
+   - void updateProgress(const char *secretWord, char guesses[], int guessCount, char gameProgress[])
+   - void displayProgress(const char *gameProgress)
+   - int checkWin(const char *gameProgress)
+   - char playerGuess()
+   - int processGuess(char guess, const char *secretWord, char guesses[], int *guessCount)
+   - void showHangman(int triesLeft)
+   - void playHangman(const char *secretWord, int *playerScore)
+
+   Player Functions (player.c):
+   - void getPlayerName(char *name, int maxLength)
+   - void savePlayerScore(const char *playerName, int score)
+   - void displayHighScores()
+   - int loadWordsFromFile(const char *filename, const char *wordList[], int *wordCount)
+   - void freeWordList(const char *wordList[], int wordCount)
+
+3. PROGRAMMING CONCEPTS USED
+   - Functions and modular design
+   - Pointers and pass-by-reference
+   - Arrays and strings
+   - File I/O operations
+   - Dynamic memory allocation
+   - Loops (while, for)
+   - Conditional statements (if-else)
+   - Input validation
+   - Random number generation
+   - Sorting algorithms
+   - Buffer management
+
+4. ERROR HANDLING
+   - File not found handling
+   - Invalid input detection
+   - Memory allocation failure handling
+   - Buffer overflow prevention
+   - Null pointer checks
+
+
+NOTES
+-----
+- All code must compile without errors
+- Warnings should be minimized
+- Code should follow consistent style
+- Memory leaks must be avoided
+- File paths use forward slashes for portability
+
+
+Last Updated: December 2025
+Version: 1.0 (Final)
