@@ -38,7 +38,7 @@ CSE115-Group-3/
 ```
 
 ## Features
-- Random word selection from 180+ word dictionary
+- Random word selection from 180+ word dictionary, although only the first 50 gets read, there is room to increase this number in the future.
 - 6 tries per round with visual hangman display
 - Input validation (only accepts alphabetic characters)
 - Duplicate guess detection
